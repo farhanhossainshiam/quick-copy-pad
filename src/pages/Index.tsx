@@ -73,7 +73,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl gradient-primary shadow-glow flex items-center justify-center">
-                <Clipboard className="h-5 w-5 text-primary-foreground" />
+                <Clipboard className="h-5 w-5 text-foreground" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
