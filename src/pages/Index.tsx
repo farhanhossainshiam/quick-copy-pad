@@ -419,7 +419,7 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl gradient-primary shadow-glow flex items-center justify-center">
                 <Clipboard className="h-5 w-5 text-foreground" />
@@ -427,6 +427,15 @@ const Index = () => {
               <div>
                 <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
                 <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
+              </div>
+            </div>
+            
+            {/* Banner Ad Section */}
+            <div className="hidden md:flex flex-1 max-w-md mx-4">
+              <div className="w-full h-12 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
+                <p className="text-sm text-foreground/80 truncate">
+                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
+                </p>
               </div>
             </div>
             <AuthDialog />
