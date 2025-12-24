@@ -20,6 +20,7 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { db, ClipboardSession as DBClipboardSession } from "@/lib/db";
 
 const TelegramButton = () => {
   return (
@@ -38,12 +39,8 @@ const TelegramButton = () => {
   );
 };
 
-interface ClipboardSession {
-  id: string;
-  value: string;
-  currentIndex: number;
-  isEditing: boolean;
-}
+// Use the ClipboardSession type from db.ts
+type ClipboardSession = DBClipboardSession;
 
 const SortableClipboardPanel = ({ 
   session, 
@@ -297,6 +294,7 @@ const Index = () => {
   const [sessions, setSessions] = useState<ClipboardSession[]>([
     { id: crypto.randomUUID(), value: "", currentIndex: 0, isEditing: true }
   ]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -308,6 +306,56 @@ const Index = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  // Load sessions from IndexedDB on component mount
+  useEffect(() => {
+    const loadSessions = async () => {
+      try {
+        await db.init();
+        const savedSessions = await db.getAllSessions();
+        
+        if (savedSessions.length > 0) {
+          setSessions(savedSessions);
+          console.log('Loaded sessions from IndexedDB:', savedSessions.length);
+        } else {
+          // If no sessions exist, create a default one and save it
+          const defaultSession = { 
+            id: crypto.randomUUID(), 
+            value: "", 
+            currentIndex: 0, 
+            isEditing: true 
+          };
+          setSessions([defaultSession]);
+          await db.saveSession(defaultSession);
+        }
+      } catch (error) {
+        console.error('Error loading sessions:', error);
+        toast.error('ডাটা লোড করতে সমস্যা হয়েছে');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSessions();
+  }, []);
+
+  // Save sessions to IndexedDB whenever they change
+  useEffect(() => {
+    if (!isLoading && sessions.length > 0) {
+      const saveSessions = async () => {
+        try {
+          await db.saveSessions(sessions);
+          console.log('Sessions saved to IndexedDB');
+        } catch (error) {
+          console.error('Error saving sessions:', error);
+        }
+      };
+
+      // Debounce the save operation
+      const timeoutId = setTimeout(saveSessions, 500);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [sessions, isLoading]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -337,9 +385,18 @@ const Index = () => {
     ));
   };
 
-  const removeSession = (id: string) => {
+  const removeSession = async (id: string) => {
     if (sessions.length > 1) {
-      setSessions(sessions.filter(s => s.id !== id));
+      try {
+        // Remove from IndexedDB
+        await db.deleteSession(id);
+        // Remove from state
+        setSessions(sessions.filter(s => s.id !== id));
+        toast.success('প্যানেল মুছে ফেলা হয়েছে');
+      } catch (error) {
+        console.error('Error deleting session:', error);
+        toast.error('মুছতে সমস্যা হয়েছে');
+      }
     }
   };
 
@@ -374,38 +431,49 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-4 py-6">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={sessions.map(s => s.id)} strategy={rectSortingStrategy}>
-            <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
-              {sessions.map(session => (
-                <SortableClipboardPanel
-                  key={session.id}
-                  session={session}
-                  onUpdate={updateSession}
-                  onRemove={removeSession}
-                  showRemove={sessions.length > 1}
-                />
-              ))}
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-foreground">লোড হচ্ছে...</p>
             </div>
-          </SortableContext>
-        </DndContext>
+          </div>
+        ) : (
+          <>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={sessions.map(s => s.id)} strategy={rectSortingStrategy}>
+                <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+                  {sessions.map(session => (
+                    <SortableClipboardPanel
+                      key={session.id}
+                      session={session}
+                      onUpdate={updateSession}
+                      onRemove={removeSession}
+                      showRemove={sessions.length > 1}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
 
-        {/* Add Button */}
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={addSession}
-            variant="outline"
-            size="lg"
-            className="gap-2 text-foreground border-dashed border-2"
-          >
-            <Plus className="h-5 w-5" />
-            নতুন প্যানেল যোগ করুন
-          </Button>
-        </div>
+            {/* Add Button */}
+            <div className="flex justify-center mt-6">
+              <Button
+                onClick={addSession}
+                variant="outline"
+                size="lg"
+                className="gap-2 text-foreground border-dashed border-2"
+              >
+                <Plus className="h-5 w-5" />
+                নতুন প্যানেল যোগ করুন
+              </Button>
+            </div>
+          </>
+        )}
       </main>
 
       {/* Footer */}
