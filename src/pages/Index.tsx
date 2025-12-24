@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { Copy, Check, Clipboard, Edit3, Plus, X, User } from "lucide-react";
+import { Copy, Check, Clipboard, Edit3, Plus, X, User, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 interface ClipboardSession {
@@ -271,10 +273,56 @@ const Index = () => {
                 <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
               </div>
             </div>
-            <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-side-glow">
-              <User className="h-4 w-4" />
-              Login
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-side-glow">
+                  <User className="h-4 w-4" />
+                  Login
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md bg-card border-border">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-foreground text-center">
+                    লগইন করুন
+                  </DialogTitle>
+                </DialogHeader>
+                <form className="space-y-4 mt-4" onSubmit={(e) => {
+                  e.preventDefault();
+                  toast.success("লগইন সফল হয়েছে!");
+                }}>
+                  <div className="space-y-2">
+                    <label className="text-sm text-foreground">ইমেইল</label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                      <Input 
+                        type="email" 
+                        placeholder="your@email.com" 
+                        className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm text-foreground">পাসওয়ার্ড</label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                      <Input 
+                        type="password" 
+                        placeholder="••••••••" 
+                        className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
+                    লগইন
+                  </Button>
+                  <p className="text-center text-sm text-foreground/70">
+                    অ্যাকাউন্ট নেই? <span className="text-primary cursor-pointer hover:underline">সাইন আপ করুন</span>
+                  </p>
+                </form>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </header>
