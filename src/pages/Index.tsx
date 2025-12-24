@@ -139,7 +139,7 @@ const ClipboardPanel = ({
       {!isEditing && (
         <>
           {/* Edit Button */}
-          <div className="flex justify-end mb-3">
+          <div className="flex justify-start mb-3">
             <Button 
               onClick={() => onUpdate({ ...session, isEditing: true })} 
               variant="ghost" 
