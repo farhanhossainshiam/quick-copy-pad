@@ -24,7 +24,7 @@ import { CSS } from "@dnd-kit/utilities";
 const TelegramButton = () => {
   return (
     <a
-      href="https://t.me/"
+      href="https://t.me/Online_lncam1"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -362,8 +362,8 @@ const Index = () => {
             {/* Banner Ad Section */}
             <div className="hidden md:flex flex-1 max-w-md mx-4">
               <div className="w-full h-12 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
-                <p className="text-sm text-foreground/80 truncate">
-                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
+              <p className="text-sm text-foreground/80 truncate">
+                  📢 আপনার বিজ্ঞাপন এখানে দিন - <a href="https://t.me/Online_lncam1" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">যোগাযোগ করুন</a>
                 </p>
               </div>
             </div>
@@ -420,13 +420,13 @@ const Index = () => {
             <div className="flex-1 max-w-md">
               <div className="w-full h-12 bg-gradient-to-r from-accent/20 via-primary/20 to-accent/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
                 <p className="text-sm text-foreground/80 truncate">
-                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
+                  📢 আপনার বিজ্ঞাপন এখানে দিন - <a href="https://t.me/Online_lncam1" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">যোগাযোগ করুন</a>
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <a
-                href="https://t.me/"
+                href="https://t.me/Online_lncam1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-primary/10 hover:bg-primary/20 border border-border flex items-center justify-center transition-colors"
