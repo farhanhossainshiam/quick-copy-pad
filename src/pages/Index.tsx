@@ -213,7 +213,7 @@ const Index = () => {
         {isEditing && totalLines === 0 && (
           <div className="text-center py-8">
             <Clipboard className="h-10 w-10 mx-auto text-muted-foreground/40 mb-3" />
-            <p className="text-sm text-foreground/60">
+            <p className="text-sm text-foreground">
               উপরে টেক্সট লিখুন
             </p>
           </div>
