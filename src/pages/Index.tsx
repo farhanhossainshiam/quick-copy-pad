@@ -115,7 +115,7 @@ const Index = () => {
             {totalLines > 0 && (
               <Button 
                 onClick={handleStartCopying}
-                className="w-full mt-4 h-12 gradient-primary hover:opacity-90 font-semibold"
+                className="w-full mt-4 h-12 gradient-primary hover:opacity-90 font-semibold text-foreground"
               >
                 শুরু করুন ({totalLines}টি লাইন)
               </Button>
@@ -147,7 +147,7 @@ const Index = () => {
                 <Button
                   onClick={handleCopy}
                   size="lg"
-                  className={`h-12 px-8 gap-2 text-base font-semibold transition-all duration-200
+                  className={`h-12 px-8 gap-2 text-base font-semibold transition-all duration-200 text-foreground
                              ${copied 
                                ? 'bg-green-500 hover:bg-green-500' 
                                : 'gradient-primary hover:opacity-90'}`}
@@ -173,7 +173,7 @@ const Index = () => {
                 <Check className="h-12 w-12 mx-auto text-green-500 mb-3" />
                 <p className="text-lg font-semibold text-foreground mb-2">সব কপি হয়ে গেছে!</p>
                 <p className="text-sm text-foreground mb-4">মোট {totalLines}টি লাইন কপি করা হয়েছে</p>
-                <Button onClick={handleReset} variant="outline" className="gap-2">
+                <Button onClick={handleReset} variant="outline" className="gap-2 text-foreground">
                   আবার শুরু করুন
                 </Button>
               </div>
