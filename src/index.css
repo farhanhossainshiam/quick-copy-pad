@@ -111,6 +111,17 @@
   }
 }
 
+@keyframes slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes dotted-border-spin {
   0% {
     background-position: 0 0, 100% 0, 100% 100%, 0 100%;
@@ -129,4 +140,14 @@
     linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%) 0 100% / 2px 8px repeat-y,
     hsl(var(--card));
   animation: dotted-border-spin 3s linear infinite;
+}
+
+/* Toast slide from right animation */
+[data-sonner-toaster][data-x-position="right"] [data-sonner-toast] {
+  animation: slide-in-from-right 0.3s ease-out;
+}
+
+/* Green loading spinner for toast */
+[data-sonner-toast] [data-icon] svg {
+  color: hsl(160 84% 45%) !important;
 }
