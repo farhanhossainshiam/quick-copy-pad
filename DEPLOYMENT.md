@@ -4,15 +4,27 @@ This guide will help you deploy your QuickCopy application to GitHub Pages.
 
 ## ⚠️ Quick Fix for "Get Pages site failed" Error
 
-If you're seeing this error, **you need to enable GitHub Pages first**:
+If you're seeing this error, try these solutions:
 
+### Solution 1: Enable Pages Manually (Recommended)
 1. Go to: `https://github.com/YOUR_USERNAME/YOUR_REPO/settings/pages`
 2. Under **Source**, select **GitHub Actions** (NOT "Deploy from a branch")
 3. Click **Save**
 4. Wait 10-30 seconds
 5. Re-run the workflow or push a new commit
 
-**The workflow cannot deploy until Pages is enabled in repository settings!**
+### Solution 2: Let the Workflow Enable It Automatically
+The workflow now includes `enablement: true` which will try to enable Pages automatically. However, this requires:
+- Repository must be **public** (or GitHub Pro/Team for private repos)
+- You must have **admin/owner** permissions
+- GitHub Pages feature must be available for your account
+
+### Solution 3: Check Repository Settings
+If you still get "Not Found" error:
+- **Private repositories**: You need GitHub Pro, Team, or Enterprise plan
+- **Repository visibility**: Make it public temporarily to test
+- **Permissions**: Ensure you're the owner or have admin access
+- **Organization repos**: May need organization admin to enable Pages
 
 ---
 
