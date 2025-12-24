@@ -474,10 +474,19 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-card/80 backdrop-blur-sm mt-auto">
         <div className="container max-w-6xl mx-auto px-4 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
               © 2024 QuickCopy. সর্বস্বত্ব সংরক্ষিত।
             </p>
+            
+            {/* Footer Banner Ad Section */}
+            <div className="flex-1 max-w-md">
+              <div className="w-full h-12 bg-gradient-to-r from-accent/20 via-primary/20 to-accent/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
+                <p className="text-sm text-foreground/80 truncate">
+                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
+                </p>
+              </div>
+            </div>
             <div className="flex items-center gap-3">
               <a
                 href="https://t.me/"
