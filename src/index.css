@@ -111,6 +111,15 @@
   }
 }
 
+@keyframes side-glow {
+  0%, 100% {
+    box-shadow: -4px 0 15px hsl(160 84% 45% / 0.5), 4px 0 15px hsl(160 84% 45% / 0.5);
+  }
+  50% {
+    box-shadow: -8px 0 25px hsl(160 84% 45% / 0.8), 8px 0 25px hsl(160 84% 45% / 0.8);
+  }
+}
+
 .animate-scale-in {
   animation: scale-in 0.2s ease-out;
 }
@@ -121,4 +130,8 @@
 
 .animate-pulse-success {
   animation: pulse-success 0.3s ease-out;
+}
+
+.animate-side-glow {
+  animation: side-glow 2s ease-in-out infinite;
 }
