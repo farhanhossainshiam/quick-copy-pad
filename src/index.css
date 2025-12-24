@@ -128,5 +128,5 @@
     linear-gradient(90deg, hsl(var(--primary)) 50%, transparent 50%) 100% 100% / 8px 2px repeat-x,
     linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%) 0 100% / 2px 8px repeat-y,
     hsl(var(--card));
-  animation: dotted-border-spin 1s linear infinite;
+  animation: dotted-border-spin 3s linear infinite;
 }
