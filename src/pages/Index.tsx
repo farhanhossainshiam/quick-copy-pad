@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Copy, Check, Clipboard, Edit3, Plus, X, GripVertical } from "lucide-react";
+import { Copy, Check, Clipboard, Edit3, Plus, X, GripHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -140,7 +140,7 @@ const SortableClipboardPanel = ({
         {...listeners}
         className="absolute top-2 left-1/2 -translate-x-1/2 h-8 w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
       >
-        <GripVertical className="h-5 w-5" />
+        <GripHorizontal className="h-5 w-5" />
       </div>
       
       {/* Remove Button */}
