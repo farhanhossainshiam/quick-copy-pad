@@ -138,7 +138,7 @@ const SortableClipboardPanel = ({
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-2 left-2 h-8 w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
+        className="absolute top-2 left-1/2 -translate-x-1/2 h-8 w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
       >
         <GripVertical className="h-5 w-5" />
       </div>
