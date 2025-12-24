@@ -111,23 +111,22 @@
   }
 }
 
-@keyframes border-rotate {
+@keyframes dotted-border-spin {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
   }
 }
 
 .animate-border {
   position: relative;
-  background: linear-gradient(90deg, hsl(var(--card)), hsl(var(--card))) padding-box,
-              linear-gradient(90deg, hsl(160 84% 45%), hsl(200 84% 55%), hsl(280 84% 55%), hsl(160 84% 45%)) border-box;
-  border: 2px solid transparent;
-  background-size: 100% 100%, 300% 100%;
-  animation: border-rotate 3s linear infinite;
+  background: 
+    linear-gradient(90deg, hsl(var(--primary)) 50%, transparent 50%) 0 0 / 8px 2px repeat-x,
+    linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%) 100% 0 / 2px 8px repeat-y,
+    linear-gradient(90deg, hsl(var(--primary)) 50%, transparent 50%) 100% 100% / 8px 2px repeat-x,
+    linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%) 0 100% / 2px 8px repeat-y,
+    hsl(var(--card));
+  animation: dotted-border-spin 1s linear infinite;
 }
