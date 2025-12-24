@@ -359,12 +359,14 @@ const Index = () => {
               </div>
             </div>
             
-            {/* Banner Ad Section */}
-            <div className="hidden md:flex flex-1 max-w-md mx-4">
-              <div className="w-full h-12 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
-                <p className="text-sm text-foreground/80 truncate">
-                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
-                </p>
+            {/* Banner Ad Section - 300x250 Medium Rectangle */}
+            <div className="hidden lg:flex mx-4">
+              <div className="w-[300px] h-[250px] bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center overflow-hidden">
+                <div className="text-center p-4">
+                  <p className="text-lg font-semibold text-foreground mb-2">📢 বিজ্ঞাপন</p>
+                  <p className="text-sm text-foreground/70">300 x 250</p>
+                  <p className="text-xs text-primary font-medium mt-2">যোগাযোগ করুন</p>
+                </div>
               </div>
             </div>
             <TelegramButton />
@@ -416,12 +418,14 @@ const Index = () => {
               © 2024 QuickCopy. সর্বস্বত্ব সংরক্ষিত।
             </p>
             
-            {/* Footer Banner Ad Section */}
-            <div className="flex-1 max-w-md">
-              <div className="w-full h-12 bg-gradient-to-r from-accent/20 via-primary/20 to-accent/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
-                <p className="text-sm text-foreground/80 truncate">
-                  📢 আপনার বিজ্ঞাপন এখানে দিন - <span className="text-primary font-medium">যোগাযোগ করুন</span>
-                </p>
+            {/* Footer Banner Ad Section - 300x250 Medium Rectangle */}
+            <div className="flex justify-center">
+              <div className="w-[300px] h-[250px] bg-gradient-to-br from-accent/20 via-primary/20 to-accent/20 rounded-lg border border-border flex items-center justify-center overflow-hidden">
+                <div className="text-center p-4">
+                  <p className="text-lg font-semibold text-foreground mb-2">📢 বিজ্ঞাপন</p>
+                  <p className="text-sm text-foreground/70">300 x 250</p>
+                  <p className="text-xs text-primary font-medium mt-2">যোগাযোগ করুন</p>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-3">
