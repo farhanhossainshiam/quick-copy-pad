@@ -1,164 +1,23 @@
 import { useState, useRef, useEffect } from "react";
-import { Copy, Check, Clipboard, Edit3, Plus, X, User, Mail, Lock } from "lucide-react";
+import { Copy, Check, Clipboard, Edit3, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
-const AuthDialog = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("লগইন সফল হয়েছে!");
-  };
-
-  const handleSignup = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("পাসওয়ার্ড মিলছে না!");
-      return;
-    }
-    toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
-  };
-
+const TelegramButton = () => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-border">
-          <User className="h-4 w-4" />
-          Login
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-card border-border">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-foreground text-center">
-            {isLogin ? "লগইন করুন" : "সাইন আপ করুন"}
-          </DialogTitle>
-        </DialogHeader>
-        
-        {isLogin ? (
-          <form className="space-y-4 mt-4" onSubmit={handleLogin}>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">ইমেইল</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="email" 
-                  placeholder="your@email.com" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">পাসওয়ার্ড</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
-              লগইন
-            </Button>
-            <p className="text-center text-sm text-foreground/70">
-              অ্যাকাউন্ট নেই?{" "}
-              <span 
-                className="text-primary cursor-pointer hover:underline"
-                onClick={() => setIsLogin(false)}
-              >
-                সাইন আপ করুন
-              </span>
-            </p>
-          </form>
-        ) : (
-          <form className="space-y-4 mt-4" onSubmit={handleSignup}>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">নাম</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="text" 
-                  placeholder="আপনার নাম" 
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">ইমেইল</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="email" 
-                  placeholder="your@email.com" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">পাসওয়ার্ড</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-foreground">পাসওয়ার্ড নিশ্চিত করুন</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                <Input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                  required
-                />
-              </div>
-            </div>
-            <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
-              সাইন আপ
-            </Button>
-            <p className="text-center text-sm text-foreground/70">
-              অ্যাকাউন্ট আছে?{" "}
-              <span 
-                className="text-primary cursor-pointer hover:underline"
-                onClick={() => setIsLogin(true)}
-              >
-                লগইন করুন
-              </span>
-            </p>
-          </form>
-        )}
-      </DialogContent>
-    </Dialog>
+    <a
+      href="https://t.me/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-border">
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Telegram
+      </Button>
+    </a>
   );
 };
 
@@ -392,43 +251,6 @@ const Index = () => {
   const [sessions, setSessions] = useState<ClipboardSession[]>([
     { id: crypto.randomUUID(), value: "", currentIndex: 0, isEditing: true }
   ]);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [popupIsLogin, setPopupIsLogin] = useState(true);
-  const [popupName, setPopupName] = useState("");
-  const [popupEmail, setPopupEmail] = useState("");
-  const [popupPassword, setPopupPassword] = useState("");
-  const [popupConfirmPassword, setPopupConfirmPassword] = useState("");
-
-  useEffect(() => {
-    // Check if user has seen the login popup before
-    const hasSeenPopup = localStorage.getItem("hasSeenLoginPopup");
-    if (!hasSeenPopup) {
-      setShowLoginPopup(true);
-    }
-  }, []);
-
-  const handlePopupLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem("hasSeenLoginPopup", "true");
-    setShowLoginPopup(false);
-    toast.success("লগইন সফল হয়েছে!");
-  };
-
-  const handlePopupSignup = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (popupPassword !== popupConfirmPassword) {
-      toast.error("পাসওয়ার্ড মিলছে না!");
-      return;
-    }
-    localStorage.setItem("hasSeenLoginPopup", "true");
-    setShowLoginPopup(false);
-    toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
-  };
-
-  const handleSkipLogin = () => {
-    localStorage.setItem("hasSeenLoginPopup", "true");
-    setShowLoginPopup(false);
-  };
 
   const addSession = () => {
     setSessions([...sessions, { 
@@ -453,149 +275,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Login Popup Dialog */}
-      <Dialog open={showLoginPopup} onOpenChange={setShowLoginPopup}>
-        <DialogContent className="sm:max-w-md bg-card border-border">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-foreground text-center">
-              {popupIsLogin ? "লগইন করুন" : "সাইন আপ করুন"}
-            </DialogTitle>
-          </DialogHeader>
-          
-          {popupIsLogin ? (
-            <form className="space-y-4 mt-4" onSubmit={handlePopupLogin}>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">ইমেইল</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="email" 
-                    placeholder="your@email.com" 
-                    value={popupEmail}
-                    onChange={(e) => setPopupEmail(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">পাসওয়ার্ড</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    value={popupPassword}
-                    onChange={(e) => setPopupPassword(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
-                লগইন
-              </Button>
-              <p className="text-center text-sm text-foreground/70">
-                অ্যাকাউন্ট নেই?{" "}
-                <span 
-                  className="text-primary cursor-pointer hover:underline"
-                  onClick={() => setPopupIsLogin(false)}
-                >
-                  সাইন আপ করুন
-                </span>
-              </p>
-              <Button 
-                type="button" 
-                variant="ghost" 
-                onClick={handleSkipLogin}
-                className="w-full text-foreground/60 hover:text-foreground"
-              >
-                এড়িয়ে যান
-              </Button>
-            </form>
-          ) : (
-            <form className="space-y-4 mt-4" onSubmit={handlePopupSignup}>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">নাম</label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="text" 
-                    placeholder="আপনার নাম" 
-                    value={popupName}
-                    onChange={(e) => setPopupName(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">ইমেইল</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="email" 
-                    placeholder="your@email.com" 
-                    value={popupEmail}
-                    onChange={(e) => setPopupEmail(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">পাসওয়ার্ড</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    value={popupPassword}
-                    onChange={(e) => setPopupPassword(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-foreground">পাসওয়ার্ড নিশ্চিত করুন</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    value={popupConfirmPassword}
-                    onChange={(e) => setPopupConfirmPassword(e.target.value)}
-                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
-                    required
-                  />
-                </div>
-              </div>
-              <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
-                সাইন আপ
-              </Button>
-              <p className="text-center text-sm text-foreground/70">
-                অ্যাকাউন্ট আছে?{" "}
-                <span 
-                  className="text-primary cursor-pointer hover:underline"
-                  onClick={() => setPopupIsLogin(true)}
-                >
-                  লগইন করুন
-                </span>
-              </p>
-              <Button 
-                type="button" 
-                variant="ghost" 
-                onClick={handleSkipLogin}
-                className="w-full text-foreground/60 hover:text-foreground"
-              >
-                এড়িয়ে যান
-              </Button>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
-
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-6xl mx-auto px-4 py-4">
@@ -618,7 +297,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <AuthDialog />
+            <TelegramButton />
           </div>
         </div>
       </header>
