@@ -392,6 +392,43 @@ const Index = () => {
   const [sessions, setSessions] = useState<ClipboardSession[]>([
     { id: crypto.randomUUID(), value: "", currentIndex: 0, isEditing: true }
   ]);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [popupIsLogin, setPopupIsLogin] = useState(true);
+  const [popupName, setPopupName] = useState("");
+  const [popupEmail, setPopupEmail] = useState("");
+  const [popupPassword, setPopupPassword] = useState("");
+  const [popupConfirmPassword, setPopupConfirmPassword] = useState("");
+
+  useEffect(() => {
+    // Check if user has seen the login popup before
+    const hasSeenPopup = localStorage.getItem("hasSeenLoginPopup");
+    if (!hasSeenPopup) {
+      setShowLoginPopup(true);
+    }
+  }, []);
+
+  const handlePopupLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem("hasSeenLoginPopup", "true");
+    setShowLoginPopup(false);
+    toast.success("লগইন সফল হয়েছে!");
+  };
+
+  const handlePopupSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (popupPassword !== popupConfirmPassword) {
+      toast.error("পাসওয়ার্ড মিলছে না!");
+      return;
+    }
+    localStorage.setItem("hasSeenLoginPopup", "true");
+    setShowLoginPopup(false);
+    toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
+  };
+
+  const handleSkipLogin = () => {
+    localStorage.setItem("hasSeenLoginPopup", "true");
+    setShowLoginPopup(false);
+  };
 
   const addSession = () => {
     setSessions([...sessions, { 
@@ -416,6 +453,149 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Login Popup Dialog */}
+      <Dialog open={showLoginPopup} onOpenChange={setShowLoginPopup}>
+        <DialogContent className="sm:max-w-md bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-foreground text-center">
+              {popupIsLogin ? "লগইন করুন" : "সাইন আপ করুন"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {popupIsLogin ? (
+            <form className="space-y-4 mt-4" onSubmit={handlePopupLogin}>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">ইমেইল</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="email" 
+                    placeholder="your@email.com" 
+                    value={popupEmail}
+                    onChange={(e) => setPopupEmail(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">পাসওয়ার্ড</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={popupPassword}
+                    onChange={(e) => setPopupPassword(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
+                লগইন
+              </Button>
+              <p className="text-center text-sm text-foreground/70">
+                অ্যাকাউন্ট নেই?{" "}
+                <span 
+                  className="text-primary cursor-pointer hover:underline"
+                  onClick={() => setPopupIsLogin(false)}
+                >
+                  সাইন আপ করুন
+                </span>
+              </p>
+              <Button 
+                type="button" 
+                variant="ghost" 
+                onClick={handleSkipLogin}
+                className="w-full text-foreground/60 hover:text-foreground"
+              >
+                এড়িয়ে যান
+              </Button>
+            </form>
+          ) : (
+            <form className="space-y-4 mt-4" onSubmit={handlePopupSignup}>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">নাম</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="text" 
+                    placeholder="আপনার নাম" 
+                    value={popupName}
+                    onChange={(e) => setPopupName(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">ইমেইল</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="email" 
+                    placeholder="your@email.com" 
+                    value={popupEmail}
+                    onChange={(e) => setPopupEmail(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">পাসওয়ার্ড</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={popupPassword}
+                    onChange={(e) => setPopupPassword(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-foreground">পাসওয়ার্ড নিশ্চিত করুন</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={popupConfirmPassword}
+                    onChange={(e) => setPopupConfirmPassword(e.target.value)}
+                    className="pl-10 bg-background border-border text-foreground placeholder:text-foreground/50"
+                    required
+                  />
+                </div>
+              </div>
+              <Button type="submit" className="w-full gradient-primary text-foreground font-semibold hover:opacity-90">
+                সাইন আপ
+              </Button>
+              <p className="text-center text-sm text-foreground/70">
+                অ্যাকাউন্ট আছে?{" "}
+                <span 
+                  className="text-primary cursor-pointer hover:underline"
+                  onClick={() => setPopupIsLogin(true)}
+                >
+                  লগইন করুন
+                </span>
+              </p>
+              <Button 
+                type="button" 
+                variant="ghost" 
+                onClick={handleSkipLogin}
+                className="w-full text-foreground/60 hover:text-foreground"
+              >
+                এড়িয়ে যান
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-6xl mx-auto px-4 py-4">
