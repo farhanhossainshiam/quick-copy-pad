@@ -6,26 +6,45 @@ import { toast } from "sonner";
 
 const Index = () => {
   const [value, setValue] = useState("");
-  const [copiedLine, setCopiedLine] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [copied, setCopied] = useState(false);
 
-  const handleCopyLine = async (line: string, lineIndex: number) => {
-    if (!line.trim()) {
+  const lines = value.split('\n').filter(line => line.trim() !== '');
+  const totalLines = lines.length;
+  const copiedCount = Math.min(currentIndex, totalLines);
+  const remainingCount = Math.max(0, totalLines - currentIndex);
+  const currentLine = lines[currentIndex] || "";
+
+  const handleCopy = async () => {
+    if (!currentLine.trim()) {
       toast.error("Nothing to copy");
       return;
     }
     
     try {
-      await navigator.clipboard.writeText(line);
-      setCopiedLine(lineIndex);
+      await navigator.clipboard.writeText(currentLine);
+      setCopied(true);
       toast.success("কপি হয়েছে!");
-      setTimeout(() => setCopiedLine(null), 2000);
+      
+      setTimeout(() => {
+        setCopied(false);
+        setCurrentIndex(prev => prev + 1);
+      }, 500);
     } catch (err) {
       toast.error("Failed to copy");
     }
   };
 
-  const lines = value.split('\n').filter(line => line.trim() !== '');
-  const totalLines = lines.length;
+  const handleReset = () => {
+    setCurrentIndex(0);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+    setCurrentIndex(0); // Reset when input changes
+  };
+
+  const isComplete = currentIndex >= totalLines && totalLines > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -38,7 +57,7 @@ const Index = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
-              <p className="text-xs text-muted-foreground">প্রতিটি লাইন আলাদাভাবে কপি করুন</p>
+              <p className="text-xs text-muted-foreground">একটি একটি করে কপি করুন</p>
             </div>
           </div>
         </div>
@@ -49,68 +68,78 @@ const Index = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="bg-card border border-border rounded-xl p-4 text-center">
-            <p className="text-2xl font-bold text-primary">{totalLines}</p>
-            <p className="text-xs text-muted-foreground">মোট লাইন</p>
+            <p className="text-2xl font-bold text-primary">{copiedCount}</p>
+            <p className="text-xs text-muted-foreground">কপি হয়েছে</p>
           </div>
           <div className="bg-card border border-border rounded-xl p-4 text-center">
-            <p className="text-2xl font-bold text-foreground">{totalLines}</p>
-            <p className="text-xs text-muted-foreground">বাকি লাইন</p>
+            <p className="text-2xl font-bold text-foreground">{remainingCount}</p>
+            <p className="text-xs text-muted-foreground">বাকি আছে</p>
           </div>
         </div>
 
-        {/* Input Area */}
-        <div className="bg-card border border-border rounded-xl p-4 mb-6">
-          <Textarea
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder="এখানে আপনার টেক্সট লিখুন... প্রতিটি লাইন আলাদাভাবে কপি করা যাবে"
-            rows={4}
-            className="w-full resize-none text-base bg-background border-border 
-                       focus:ring-2 focus:ring-primary/30 
-                       placeholder:text-muted-foreground/60"
-          />
-        </div>
-
-        {/* Lines List */}
-        {lines.length > 0 && (
-          <div className="space-y-2">
-            {lines.map((line, index) => (
-              <div 
-                key={index}
-                className="flex items-center gap-3 bg-card border border-border rounded-xl p-3 
-                           hover:border-primary/50 transition-colors duration-200"
-              >
-                <span className="flex-1 text-sm font-mono truncate text-foreground">{line}</span>
-                <Button
-                  onClick={() => handleCopyLine(line, index)}
-                  variant="copy"
-                  size="sm"
-                  className={`shrink-0 h-9 px-4 gap-2 transition-all duration-200 
-                             ${copiedLine === index ? 'animate-pulse-success bg-green-500 hover:bg-green-500' : ''}`}
-                >
-                  {copiedLine === index ? (
-                    <>
-                      <Check className="h-4 w-4" />
-                      <span className="text-xs">কপি হয়েছে</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4" />
-                      <span className="text-xs">কপি করুন</span>
-                    </>
-                  )}
-                </Button>
-              </div>
-            ))}
+        {/* Current Line Display */}
+        {totalLines > 0 && !isComplete && (
+          <div className="bg-card border border-primary/30 rounded-xl p-6 mb-6 text-center">
+            <p className="text-3xl font-bold text-foreground font-mono mb-4">
+              {currentLine}
+            </p>
+            <Button
+              onClick={handleCopy}
+              size="lg"
+              className={`h-12 px-8 gap-2 text-base font-semibold transition-all duration-200
+                         ${copied 
+                           ? 'bg-green-500 hover:bg-green-500' 
+                           : 'gradient-primary hover:opacity-90'}`}
+            >
+              {copied ? (
+                <>
+                  <Check className="h-5 w-5" />
+                  <span>কপি হয়েছে</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-5 w-5" />
+                  <span>কপি করুন</span>
+                </>
+              )}
+            </Button>
           </div>
         )}
 
+        {/* Complete State */}
+        {isComplete && (
+          <div className="bg-card border border-green-500/30 rounded-xl p-6 mb-6 text-center">
+            <Check className="h-12 w-12 mx-auto text-green-500 mb-3" />
+            <p className="text-lg font-semibold text-foreground mb-2">সব কপি হয়ে গেছে!</p>
+            <p className="text-sm text-muted-foreground mb-4">মোট {totalLines}টি লাইন কপি করা হয়েছে</p>
+            <Button onClick={handleReset} variant="outline" className="gap-2">
+              আবার শুরু করুন
+            </Button>
+          </div>
+        )}
+
+        {/* Input Area */}
+        <div className="bg-card border border-border rounded-xl p-4">
+          <label className="text-sm text-muted-foreground mb-2 block">
+            এখানে আপনার সব লাইন লিখুন:
+          </label>
+          <Textarea
+            value={value}
+            onChange={handleInputChange}
+            placeholder="প্রতিটি লাইনে একটি করে নম্বর বা টেক্সট লিখুন..."
+            rows={5}
+            className="w-full resize-none text-base bg-background border-border 
+                       focus:ring-2 focus:ring-primary/30 
+                       placeholder:text-muted-foreground/60 font-mono"
+          />
+        </div>
+
         {/* Empty State */}
-        {lines.length === 0 && (
-          <div className="text-center py-12">
-            <Clipboard className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
+        {totalLines === 0 && (
+          <div className="text-center py-8">
+            <Clipboard className="h-10 w-10 mx-auto text-muted-foreground/40 mb-3" />
             <p className="text-sm text-muted-foreground">
-              উপরে টেক্সট লিখুন, প্রতিটি লাইন এখানে দেখা যাবে
+              উপরে টেক্সট লিখুন
             </p>
           </div>
         )}
