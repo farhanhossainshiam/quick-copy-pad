@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Copy, Check, Clipboard, Edit3, Plus, X } from "lucide-react";
+import { Copy, Check, Clipboard, Edit3, Plus, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -261,14 +261,20 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl gradient-primary shadow-glow flex items-center justify-center">
-              <Clipboard className="h-5 w-5 text-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl gradient-primary shadow-glow flex items-center justify-center">
+                <Clipboard className="h-5 w-5 text-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
+                <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
-              <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
-            </div>
+            <Button variant="outline" className="gap-2 text-foreground">
+              <User className="h-4 w-4" />
+              Login
+            </Button>
           </div>
         </div>
       </header>
