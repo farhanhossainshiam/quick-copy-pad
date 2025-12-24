@@ -275,29 +275,29 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-4 py-6">
-        <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
-          {sessions.map(session => (
-            <ClipboardPanel
-              key={session.id}
-              session={session}
-              onUpdate={updateSession}
-              onRemove={removeSession}
-              showRemove={sessions.length > 1}
-            />
+        <div className="flex gap-4 items-start justify-center flex-wrap">
+          {sessions.map((session, index) => (
+            <div key={session.id} className="w-full max-w-md flex-shrink-0">
+              <ClipboardPanel
+                session={session}
+                onUpdate={updateSession}
+                onRemove={removeSession}
+                showRemove={sessions.length > 1}
+              />
+            </div>
           ))}
-        </div>
-
-        {/* Add Button */}
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={addSession}
-            variant="outline"
-            size="lg"
-            className="gap-2 text-foreground border-dashed border-2"
-          >
-            <Plus className="h-5 w-5" />
-            নতুন প্যানেল যোগ করুন
-          </Button>
+          
+          {/* Add Button - shown inline */}
+          <div className="w-full max-w-md flex-shrink-0 flex items-center justify-center min-h-[200px]">
+            <Button
+              onClick={addSession}
+              variant="outline"
+              size="lg"
+              className="gap-2 text-foreground border-dashed border-2 h-24 w-24 rounded-full flex-col"
+            >
+              <Plus className="h-8 w-8" />
+            </Button>
+          </div>
         </div>
       </main>
     </div>
