@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Copy, Check, Clipboard, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const Index = () => {
+  const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [value, setValue] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -15,6 +16,16 @@ const Index = () => {
   const copiedCount = Math.min(currentIndex, totalLines);
   const remainingCount = Math.max(0, totalLines - currentIndex);
   const currentLine = lines[currentIndex] || "";
+
+  // Auto-scroll to current line when index changes
+  useEffect(() => {
+    if (lineRefs.current[currentIndex]) {
+      lineRefs.current[currentIndex]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }, [currentIndex]);
 
   const handleCopy = async () => {
     if (!currentLine.trim()) {
@@ -175,14 +186,16 @@ const Index = () => {
                 {lines.map((line, index) => (
                   <div 
                     key={index}
-                    className={`flex items-center gap-3 p-3 rounded-lg border transition-colors duration-200
+                    ref={(el) => lineRefs.current[index] = el}
+                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-300
                                ${index < currentIndex 
                                  ? 'bg-green-500/10 border-green-500/30 text-muted-foreground line-through' 
                                  : index === currentIndex 
-                                   ? 'bg-primary/10 border-primary/30 text-foreground' 
+                                   ? 'bg-primary/10 border-primary/30 text-foreground animate-scale-in' 
                                    : 'bg-muted/30 border-border/50 text-muted-foreground'}`}
                   >
-                    <span className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-colors
+                                    ${index < currentIndex ? 'bg-green-500/20' : index === currentIndex ? 'bg-primary/20' : 'bg-muted'}`}>
                       {index + 1}
                     </span>
                     <span className="flex-1 text-sm font-mono truncate">{line}</span>
