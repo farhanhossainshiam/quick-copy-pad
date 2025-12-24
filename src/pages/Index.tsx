@@ -30,7 +30,7 @@ const AuthDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-side-glow">
+        <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-border">
           <User className="h-4 w-4" />
           Login
         </Button>

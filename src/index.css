@@ -111,27 +111,23 @@
   }
 }
 
-@keyframes side-glow {
-  0%, 100% {
-    box-shadow: -4px 0 15px hsl(160 84% 45% / 0.5), 4px 0 15px hsl(160 84% 45% / 0.5);
+@keyframes border-rotate {
+  0% {
+    background-position: 0% 50%;
   }
   50% {
-    box-shadow: -8px 0 25px hsl(160 84% 45% / 0.8), 8px 0 25px hsl(160 84% 45% / 0.8);
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-.animate-scale-in {
-  animation: scale-in 0.2s ease-out;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
-}
-
-.animate-pulse-success {
-  animation: pulse-success 0.3s ease-out;
-}
-
-.animate-side-glow {
-  animation: side-glow 2s ease-in-out infinite;
+.animate-border {
+  position: relative;
+  background: linear-gradient(90deg, hsl(var(--card)), hsl(var(--card))) padding-box,
+              linear-gradient(90deg, hsl(160 84% 45%), hsl(200 84% 55%), hsl(280 84% 55%), hsl(160 84% 45%)) border-box;
+  border: 2px solid transparent;
+  background-size: 100% 100%, 300% 100%;
+  animation: border-rotate 3s linear infinite;
 }
