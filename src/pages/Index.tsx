@@ -1,8 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { Copy, Check, Clipboard, Edit3, Plus, X } from "lucide-react";
+import { Copy, Check, Clipboard, Edit3, Plus, X, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const TelegramButton = () => {
   return (
@@ -28,7 +45,7 @@ interface ClipboardSession {
   isEditing: boolean;
 }
 
-const ClipboardPanel = ({ 
+const SortableClipboardPanel = ({ 
   session, 
   onUpdate, 
   onRemove, 
@@ -39,6 +56,22 @@ const ClipboardPanel = ({
   onRemove: (id: string) => void;
   showRemove: boolean;
 }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: session.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : 1,
+  };
+
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -96,7 +129,20 @@ const ClipboardPanel = ({
   const isComplete = currentIndex >= totalLines && totalLines > 0;
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 relative">
+    <div 
+      ref={setNodeRef} 
+      style={style}
+      className="bg-card border border-border rounded-xl p-4 relative touch-manipulation"
+    >
+      {/* Drag Handle */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="absolute top-2 left-2 h-8 w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
+      >
+        <GripVertical className="h-5 w-5" />
+      </div>
+      
       {/* Remove Button */}
       {showRemove && (
         <Button
@@ -252,6 +298,30 @@ const Index = () => {
     { id: crypto.randomUUID(), value: "", currentIndex: 0, isEditing: true }
   ]);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setSessions((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+      toast.success("প্যানেল সরানো হয়েছে!");
+    }
+  };
+
   const addSession = () => {
     setSessions([...sessions, { 
       id: crypto.randomUUID(), 
@@ -304,17 +374,25 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-4 py-6">
-        <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
-          {sessions.map(session => (
-            <ClipboardPanel
-              key={session.id}
-              session={session}
-              onUpdate={updateSession}
-              onRemove={removeSession}
-              showRemove={sessions.length > 1}
-            />
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={sessions.map(s => s.id)} strategy={rectSortingStrategy}>
+            <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+              {sessions.map(session => (
+                <SortableClipboardPanel
+                  key={session.id}
+                  session={session}
+                  onUpdate={updateSession}
+                  onRemove={removeSession}
+                  showRemove={sessions.length > 1}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
 
         {/* Add Button */}
         <div className="flex justify-center mt-6">
