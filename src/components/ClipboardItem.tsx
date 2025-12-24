@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Copy, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 interface ClipboardItemProps {
@@ -32,14 +32,14 @@ const ClipboardItem = ({ id, value, onChange, onRemove, showRemove }: ClipboardI
   };
 
   return (
-    <div className="animate-scale-in group relative flex gap-2 items-center">
-      <div className="flex-1 flex gap-2">
-        <Input
-          type="text"
+    <div className="animate-scale-in group relative flex gap-2 items-start">
+      <div className="flex-1 flex gap-2 items-start">
+        <Textarea
           value={value}
           onChange={(e) => onChange(id, e.target.value)}
           placeholder="Enter text or number to copy..."
-          className="flex-1 bg-card border-border shadow-soft transition-all duration-200 
+          rows={3}
+          className="flex-1 min-h-[80px] resize-y bg-card border-border shadow-soft transition-all duration-200 
                      focus:shadow-medium focus:ring-2 focus:ring-primary/20 
                      placeholder:text-muted-foreground/60"
         />
@@ -47,7 +47,7 @@ const ClipboardItem = ({ id, value, onChange, onRemove, showRemove }: ClipboardI
           onClick={handleCopy}
           variant="copy"
           size="icon"
-          className={`shrink-0 transition-all duration-200 ${copied ? 'animate-pulse-success' : ''}`}
+          className={`shrink-0 mt-1 transition-all duration-200 ${copied ? 'animate-pulse-success' : ''}`}
         >
           {copied ? (
             <Check className="h-4 w-4" />
