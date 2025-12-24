@@ -271,7 +271,7 @@ const Index = () => {
                 <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
               </div>
             </div>
-            <Button variant="outline" className="gap-2 text-foreground">
+            <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 hover:shadow-glow">
               <User className="h-4 w-4" />
               Login
             </Button>
