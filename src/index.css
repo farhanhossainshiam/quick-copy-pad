@@ -78,6 +78,11 @@
   .gradient-card {
     background: var(--gradient-card);
   }
+  
+  .scroll-contain {
+    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
+  }
 }
 
 @keyframes scale-in {

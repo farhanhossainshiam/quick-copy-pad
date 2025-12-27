@@ -70,6 +70,7 @@ const SortableClipboardPanel = ({
   };
 
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
   const { id, value, currentIndex, isEditing } = session;
@@ -80,14 +81,45 @@ const SortableClipboardPanel = ({
   const remainingCount = Math.max(0, totalLines - currentIndex);
   const currentLine = lines[currentIndex] || "";
 
+
+  // Prevent scroll chaining when scrolling reaches top or bottom
   useEffect(() => {
-    if (lineRefs.current[currentIndex]) {
-      lineRefs.current[currentIndex]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }
-  }, [currentIndex]);
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      
+      // Calculate if scrollable
+      const hasScroll = scrollHeight > clientHeight;
+      if (!hasScroll) return; // Don't interfere if not scrollable
+      
+      const maxScrollTop = scrollHeight - clientHeight;
+      
+      // Check current scroll position with small tolerance for rounding
+      const isAtTop = scrollTop <= 1;
+      const isAtBottom = scrollTop >= maxScrollTop - 1;
+      
+      // Determine scroll direction
+      const isScrollingUp = e.deltaY < 0;
+      const isScrollingDown = e.deltaY > 0;
+
+      // If at boundary and trying to scroll further in that direction, prevent it
+      if ((isAtTop && isScrollingUp) || (isAtBottom && isScrollingDown)) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    };
+
+    // Use bubble phase (default) with non-passive to allow preventDefault
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   const handleCopy = async () => {
     if (!currentLine.trim()) {
@@ -250,7 +282,10 @@ const SortableClipboardPanel = ({
           {/* Lines List */}
           <div className="bg-background border border-border rounded-lg p-3">
             <p className="text-xs text-foreground mb-2">সব লাইন:</p>
-            <div className="max-h-[100px] overflow-y-auto space-y-1.5 scrollbar-thin">
+            <div 
+              ref={scrollContainerRef}
+              className="max-h-[100px] overflow-y-auto space-y-1.5 scrollbar-thin scroll-contain"
+            >
               {lines.map((line, index) => (
                 <div 
                   key={index}
