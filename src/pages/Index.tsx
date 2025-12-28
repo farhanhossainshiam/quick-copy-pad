@@ -539,7 +539,7 @@ const Index = () => {
                 </svg>
               </a>
               <a
-                href="https://facebook.com/"
+                href="https://www.facebook.com/Online.lncam"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-primary/10 hover:bg-primary/20 border border-border flex items-center justify-center transition-colors"
@@ -549,7 +549,7 @@ const Index = () => {
                 </svg>
               </a>
               <a
-                href="https://youtube.com/"
+                href="https://www.youtube.com/@Online_lncam"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-primary/10 hover:bg-primary/20 border border-border flex items-center justify-center transition-colors"
