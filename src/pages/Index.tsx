@@ -213,18 +213,15 @@ const SortableClipboardPanel = ({
       {/* Copy Mode */}
       {!isEditing && (
         <>
-          {/* Edit Button */}
-          <div className="flex justify-start mb-2 sm:mb-3 mt-5 sm:mt-4">
-            <Button 
-              onClick={() => onUpdate({ ...session, isEditing: true })} 
-              variant="ghost" 
-              size="sm"
-              className="gap-1.5 sm:gap-2 text-foreground text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
-            >
-              <Edit3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              এডিট
-            </Button>
-          </div>
+          {/* Edit Button - Top Left, aligned with close button */}
+          <Button 
+            onClick={() => onUpdate({ ...session, isEditing: true })} 
+            variant="ghost" 
+            size="icon"
+            className="absolute top-2 left-2 h-7 w-7 sm:h-8 sm:w-8 text-foreground/60 hover:text-foreground hover:bg-foreground/10"
+          >
+            <Edit3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          </Button>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
