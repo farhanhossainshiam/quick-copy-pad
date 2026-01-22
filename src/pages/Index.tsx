@@ -29,11 +29,11 @@ const TelegramButton = () => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button variant="outline" className="gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-border">
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+      <Button variant="outline" className="gap-1.5 sm:gap-2 text-foreground hover:scale-105 transition-all duration-200 animate-border h-8 sm:h-10 px-2.5 sm:px-4 text-xs sm:text-sm">
+        <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" viewBox="0 0 24 24" fill="currentColor">
           <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </svg>
-        Telegram
+        <span className="hidden xs:inline">Telegram</span>
       </Button>
     </a>
   );
@@ -161,15 +161,15 @@ const SortableClipboardPanel = ({
     <div 
       ref={setNodeRef} 
       style={style}
-      className="bg-card border border-border rounded-xl p-4 relative touch-manipulation"
+      className="bg-card border border-border rounded-lg sm:rounded-xl p-3 sm:p-4 relative touch-manipulation"
     >
       {/* Drag Handle */}
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-2 left-1/2 -translate-x-1/2 h-8 w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
+        className="absolute top-2 left-1/2 -translate-x-1/2 h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center cursor-grab active:cursor-grabbing text-foreground/40 hover:text-foreground/70 touch-manipulation"
       >
-        <GripHorizontal className="h-5 w-5" />
+        <GripHorizontal className="h-4 w-4 sm:h-5 sm:w-5" />
       </div>
       
       {/* Remove Button */}
@@ -178,31 +178,31 @@ const SortableClipboardPanel = ({
           onClick={() => onRemove(id)}
           variant="ghost"
           size="icon"
-          className="absolute top-2 right-2 h-8 w-8 text-foreground/60 hover:text-destructive hover:bg-destructive/10"
+          className="absolute top-2 right-2 h-7 w-7 sm:h-8 sm:w-8 text-foreground/60 hover:text-destructive hover:bg-destructive/10"
         >
-          <X className="h-4 w-4" />
+          <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </Button>
       )}
 
       {/* Input Area - Only show when editing */}
       {isEditing && (
-        <div className="mb-4">
-          <label className="text-sm text-foreground mb-2 block">
+        <div className="mb-3 sm:mb-4 mt-6 sm:mt-4">
+          <label className="text-xs sm:text-sm text-foreground mb-1.5 sm:mb-2 block">
             এখানে আপনার সব লাইন লিখুন:
           </label>
           <Textarea
             value={value}
             onChange={handleInputChange}
             placeholder="প্রতিটি লাইনে একটি করে নম্বর বা টেক্সট লিখুন..."
-            rows={4}
-            className="w-full resize-none text-base bg-background border-border 
+            rows={3}
+            className="w-full resize-none text-sm sm:text-base bg-background border-border 
                        focus:ring-2 focus:ring-primary/30 
                        placeholder:text-foreground/50 font-mono"
           />
           {totalLines > 0 && (
             <Button 
               onClick={handleStartCopying}
-              className="w-full mt-3 h-10 gradient-primary hover:opacity-90 font-semibold text-foreground"
+              className="w-full mt-2.5 sm:mt-3 h-9 sm:h-10 gradient-primary hover:opacity-90 font-semibold text-foreground text-sm sm:text-base"
             >
               শুরু করুন ({totalLines}টি লাইন)
             </Button>
@@ -214,52 +214,52 @@ const SortableClipboardPanel = ({
       {!isEditing && (
         <>
           {/* Edit Button */}
-          <div className="flex justify-start mb-3">
+          <div className="flex justify-start mb-2 sm:mb-3 mt-5 sm:mt-4">
             <Button 
               onClick={() => onUpdate({ ...session, isEditing: true })} 
               variant="ghost" 
               size="sm"
-              className="gap-2 text-foreground"
+              className="gap-1.5 sm:gap-2 text-foreground text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
             >
-              <Edit3 className="h-4 w-4" />
+              <Edit3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               এডিট
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-2 mb-4">
-            <div className="bg-background border border-border rounded-lg p-3 text-center">
-              <p className="text-xl font-bold text-primary">{copiedCount}</p>
-              <p className="text-xs text-foreground">কপি হয়েছে</p>
+          <div className="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
+            <div className="bg-background border border-border rounded-lg p-2 sm:p-3 text-center">
+              <p className="text-lg sm:text-xl font-bold text-primary">{copiedCount}</p>
+              <p className="text-[10px] sm:text-xs text-foreground">কপি হয়েছে</p>
             </div>
-            <div className="bg-background border border-border rounded-lg p-3 text-center">
-              <p className="text-xl font-bold text-foreground">{remainingCount}</p>
-              <p className="text-xs text-foreground">বাকি আছে</p>
+            <div className="bg-background border border-border rounded-lg p-2 sm:p-3 text-center">
+              <p className="text-lg sm:text-xl font-bold text-foreground">{remainingCount}</p>
+              <p className="text-[10px] sm:text-xs text-foreground">বাকি আছে</p>
             </div>
           </div>
 
           {/* Current Line Display */}
           {!isComplete && (
-            <div className="bg-background border border-primary/30 rounded-lg p-4 mb-4 text-center">
-              <p className="text-2xl font-bold text-foreground font-mono mb-3">
+            <div className="bg-background border border-primary/30 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 text-center">
+              <p className="text-xl sm:text-2xl font-bold text-foreground font-mono mb-2.5 sm:mb-3 break-all">
                 {currentLine}
               </p>
               <Button
                 onClick={handleCopy}
-                size="lg"
-                className={`h-10 px-6 gap-2 text-sm font-semibold transition-all duration-200 text-black
+                size="default"
+                className={`h-9 sm:h-10 px-4 sm:px-6 gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold transition-all duration-200 text-black
                            ${copied 
                              ? 'bg-green-500' 
                              : 'bg-[rgb(10,250,198)]'}`}
               >
                 {copied ? (
                   <>
-                    <Check className="h-4 w-4" />
+                    <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     <span>কপি হয়েছে</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-4 w-4" />
+                    <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     <span>কপি করুন</span>
                   </>
                 )}
@@ -269,11 +269,11 @@ const SortableClipboardPanel = ({
 
           {/* Complete State */}
           {isComplete && (
-            <div className="bg-background border border-green-500/30 rounded-lg p-4 mb-4 text-center">
-              <Check className="h-10 w-10 mx-auto text-green-500 mb-2" />
-              <p className="text-base font-semibold text-foreground mb-1">সব কপি হয়ে গেছে!</p>
-              <p className="text-xs text-foreground mb-3">মোট {totalLines}টি লাইন</p>
-              <Button onClick={handleReset} variant="outline" size="sm" className="gap-2 text-foreground">
+            <div className="bg-background border border-green-500/30 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 text-center">
+              <Check className="h-8 w-8 sm:h-10 sm:w-10 mx-auto text-green-500 mb-1.5 sm:mb-2" />
+              <p className="text-sm sm:text-base font-semibold text-foreground mb-0.5 sm:mb-1">সব কপি হয়ে গেছে!</p>
+              <p className="text-[10px] sm:text-xs text-foreground mb-2 sm:mb-3">মোট {totalLines}টি লাইন</p>
+              <Button onClick={handleReset} variant="outline" size="sm" className="gap-1.5 sm:gap-2 text-foreground text-xs sm:text-sm h-8 sm:h-9">
                 আবার শুরু করুন
               </Button>
             </div>
@@ -409,22 +409,22 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl gradient-primary shadow-glow flex items-center justify-center">
-                <Clipboard className="h-5 w-5 text-foreground" />
+        <div className="container max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl gradient-primary shadow-glow flex items-center justify-center flex-shrink-0">
+                <Clipboard className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">QuickCopy</h1>
-                <p className="text-xs text-foreground">একটি একটি করে কপি করুন</p>
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-xl font-bold text-foreground truncate">QuickCopy</h1>
+                <p className="text-[10px] sm:text-xs text-foreground truncate">একটি একটি করে কপি করুন</p>
               </div>
             </div>
             
             {/* Banner Ad Section */}
-            <div className="hidden md:flex flex-1 max-w-md mx-4">
+            <div className="hidden lg:flex flex-1 max-w-md mx-4">
               <div className="w-full h-12 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center px-4 overflow-hidden">
-              <p className="text-sm text-foreground/80 truncate">
+                <p className="text-sm text-foreground/80 truncate">
                   📢 আপনার বিজ্ঞাপন এখানে দিন - <a href="https://t.me/Online_lncam1" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">যোগাযোগ করুন</a>
                 </p>
               </div>
@@ -434,13 +434,22 @@ const Index = () => {
         </div>
       </header>
 
+      {/* Mobile Banner Ad */}
+      <div className="lg:hidden px-3 py-2 bg-card/50">
+        <div className="w-full h-10 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg border border-border flex items-center justify-center px-3 overflow-hidden">
+          <p className="text-xs text-foreground/80 truncate">
+            📢 বিজ্ঞাপন দিন - <a href="https://t.me/Online_lncam1" target="_blank" rel="noopener noreferrer" className="text-primary font-medium">যোগাযোগ</a>
+          </p>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <main className="container max-w-6xl mx-auto px-4 py-6">
+      <main className="container max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {isLoading ? (
-          <div className="flex items-center justify-center min-h-[400px]">
+          <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-foreground">লোড হচ্ছে...</p>
+              <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-primary mx-auto mb-3 sm:mb-4"></div>
+              <p className="text-sm sm:text-base text-foreground">লোড হচ্ছে...</p>
             </div>
           </div>
         ) : (
@@ -451,7 +460,7 @@ const Index = () => {
               onDragEnd={handleDragEnd}
             >
               <SortableContext items={sessions.map(s => s.id)} strategy={rectSortingStrategy}>
-                <div className={`grid gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+                <div className={`grid gap-3 sm:gap-4 ${sessions.length === 1 ? 'max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
                   {sessions.map(session => (
                     <SortableClipboardPanel
                       key={session.id}
@@ -466,14 +475,14 @@ const Index = () => {
             </DndContext>
 
             {/* Add Button */}
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-4 sm:mt-6">
               <Button
                 onClick={addSession}
                 variant="outline"
-                size="lg"
-                className="gap-2 text-foreground border-dashed border-2"
+                size="default"
+                className="gap-2 text-foreground border-dashed border-2 text-sm sm:text-base h-10 sm:h-11 px-4 sm:px-6"
               >
-                <Plus className="h-5 w-5" />
+                <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
                 নতুন প্যানেল যোগ করুন
               </Button>
             </div>
@@ -483,9 +492,9 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t border-border bg-card/80 backdrop-blur-sm mt-auto">
-        <div className="container max-w-6xl mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
+        <div className="container max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-col items-center justify-between gap-3 sm:gap-4 text-center sm:text-left sm:flex-row">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               © 2024 QuickCopy. সর্বস্বত্ব সংরক্ষিত।
             </p>
             
