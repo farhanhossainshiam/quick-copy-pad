@@ -247,7 +247,7 @@ const SortableClipboardPanel = ({
               <Button
                 onClick={handleCopy}
                 size="lg"
-                className={`h-10 px-6 gap-2 text-sm font-semibold transition-all duration-200 text-gray-400
+                className={`h-10 px-6 gap-2 text-sm font-semibold transition-all duration-200 text-black
                            ${copied 
                              ? 'bg-green-500' 
                              : 'bg-[rgb(10,250,198)]'}`}
