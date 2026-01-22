@@ -279,36 +279,6 @@ const SortableClipboardPanel = ({
             </div>
           )}
 
-          {/* Lines List */}
-          <div className="bg-background border border-border rounded-lg p-3">
-            <p className="text-xs text-foreground mb-2">সব লাইন:</p>
-            <div 
-              ref={scrollContainerRef}
-              className="max-h-[100px] overflow-y-auto space-y-1.5 scrollbar-thin scroll-contain"
-            >
-              {lines.map((line, index) => (
-                <div 
-                  key={index}
-                  ref={(el) => lineRefs.current[index] = el}
-                  className={`flex items-center gap-2 p-2 rounded-md border transition-all duration-300 text-sm
-                             ${index < currentIndex 
-                               ? 'bg-green-500/10 border-green-500/30 text-foreground/60 line-through' 
-                               : index === currentIndex 
-                                 ? 'bg-primary/10 border-primary/30 text-foreground animate-scale-in' 
-                                 : 'bg-muted/30 border-border/50 text-foreground'}`}
-                >
-                  <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium transition-colors
-                                  ${index < currentIndex ? 'bg-green-500/20' : index === currentIndex ? 'bg-primary/20' : 'bg-muted'}`}>
-                    {index + 1}
-                  </span>
-                  <span className="flex-1 font-mono truncate">{line}</span>
-                  {index < currentIndex && (
-                    <Check className="h-3 w-3 text-green-500 shrink-0" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
         </>
       )}
 
