@@ -218,7 +218,7 @@ const SortableClipboardPanel = ({
             onClick={() => onUpdate({ ...session, isEditing: true })} 
             variant="ghost" 
             size="icon"
-            className="absolute top-2 left-2 h-7 w-7 sm:h-8 sm:w-8 text-foreground hover:text-foreground hover:bg-transparent"
+            className="absolute top-2 left-2 h-7 w-7 sm:h-8 sm:w-8 text-foreground/60 hover:text-primary hover:bg-primary/10"
           >
             <Edit3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </Button>
